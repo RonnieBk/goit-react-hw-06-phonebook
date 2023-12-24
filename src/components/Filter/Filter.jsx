@@ -1,7 +1,15 @@
+import { setFilter } from '../../redux/actions';
+import { useDispatch } from 'react-redux';
 import css from './Filter.module.css';
-import PropTypes from 'prop-types';
 
-export const Filter = ({ onChange }) => {
+export const Filter = () => {
+  const dispatch = useDispatch();
+
+  const handleChange = evt => {
+    const { value } = evt.target;
+    dispatch(setFilter(value));
+  };
+
   return (
     <div>
       <label className={css.label} htmlFor="filter">
@@ -12,12 +20,8 @@ export const Filter = ({ onChange }) => {
         type="text"
         id="filter"
         name="filter"
-        onChange={onChange}
+        onChange={handleChange}
       />
     </div>
   );
-};
-
-Filter.propTypes = {
-  onChange: PropTypes.func.isRequired,
 };

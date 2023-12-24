@@ -1,11 +1,20 @@
 import css from './ContactList.module.css';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { deleteContact } from '../../redux/actions';
 
-export const ContactListElement = ({ name, number, id, onClick }) => {
+export const ContactListElement = ({ contact }) => {
+  const { name, number, id } = contact;
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteContact(id));
+  };
+
   return (
-    <li id={id} className={css.list}>
+    <li id={id} className={css.listItem}>
       {name}: {number}{' '}
-      <button type="button" className={css.btnDelete} onClick={onClick}>
+      <button type="button" className={css.btnDelete} onClick={handleDelete}>
         Delete
       </button>
     </li>
@@ -13,8 +22,9 @@ export const ContactListElement = ({ name, number, id, onClick }) => {
 };
 
 ContactListElement.propTypes = {
-  name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  contact: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+  }).isRequired,
 };
